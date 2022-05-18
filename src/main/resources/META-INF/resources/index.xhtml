@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:sec="https://joinfaces.org/security"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+	<h:head>
+		<title>Places App</title>
+	</h:head>
+
+	<h:body>
+
+		<h1>Places App</h1>
+
+		<h:form id="form">
+			<div class="card crud-demo">
+				<p:growl id="messages" showDetail="true"/>
+				<p:toolbar>
+					<p:toolbarGroup>
+						<p:commandButton value="New" icon="pi pi-plus"
+							actionListener="#{placesView.openNew}"
+							update=":form:manage-place-content"
+							oncomplete="PF('managePlaceDialog').show()"
+							styleClass="ui-button-success" style="margin-right: .5rem">
+							<p:resetInput target=":form:manage-place-content" />
+						</p:commandButton>
+						<p:commandButton id="delete-places-button"
+							value="#{placesView.deleteButtonMessage}" icon="pi pi-trash"
+							actionListener="#{placesView.deleteSelectedPlaces}"
+							styleClass="ui-button-danger"
+							disabled="#{!placesView.hasSelectedPlaces()}" update="@this">
+							<p:confirm header="Confirmation"
+								message="Delete the selected places?"
+								icon="pi pi-exclamation-triangle" />
+						</p:commandButton>
+					</p:toolbarGroup>
+				</p:toolbar>
+
+				<p:dataTable id="dt-places" widgetVar="dtPlaces" var="place"
+					value="#{placesView.places}" reflow="true"
+					styleClass="places-table"
+					selection="#{placesView.selectedPlaces}" rowKey="#{place.id}"
+					paginator="true" rows="10" rowSelectMode="add"
+					paginatorPosition="bottom">
+					<f:facet name="header">
+						<div class="places-table-header">
+							<span style="font-weight: bold">PLACES</span> <span
+								class="filter-container ui-input-icon-left"> <i
+								class="pi pi-search"></i> <p:inputText id="globalFilter"
+									onkeyup="PF('dtPlaces').filter()" placeholder="Search" />
+							</span>
+						</div>
+					</f:facet>
+
+					<p:ajax event="rowSelect" update=":form:delete-places-button" />
+					<p:ajax event="rowUnselect" update=":form:delete-places-button" />
+					<p:ajax event="rowSelectCheckbox"
+						update=":form:delete-places-button" />
+					<p:ajax event="rowUnselectCheckbox"
+						update=":form:delete-places-button" />
+					<p:ajax event="toggleSelect" update=":form:delete-places-button" />
+
+					<p:column selectionMode="multiple" exportable="false"></p:column>
+
+					<p:column headerText="Name" >
+						<h:outputText value="#{place.name}" />
+					</p:column>
+					<p:column headerText="Visited" >
+						<h:outputText value="#{place.visited}" />
+					</p:column>
+					<p:column headerText="Description" >
+						<h:outputText value="#{place.description}" />
+					</p:column>
+					<p:column exportable="false">
+						<p:commandButton icon="pi pi-pencil"
+							update=":form:manage-place-content"
+							oncomplete="PF('managePlaceDialog').show()"
+							styleClass="edit-button rounded-button ui-button-success"
+							process="@this">
+							<f:setPropertyActionListener value="#{place}"
+								target="#{placesView.selectedPlace}" />
+							<p:resetInput target=":form:manage-place-content" />
+						</p:commandButton>
+						<p:commandButton class="ui-button-warning rounded-button"
+							icon="pi pi-trash" process="@this"
+							oncomplete="PF('deletePlaceDialog').show()">
+							<f:setPropertyActionListener value="#{place}"
+								target="#{placesView.selectedPlace}" />
+						</p:commandButton>
+					</p:column>
+
+				</p:dataTable>
+
+				<p:dialog header="Place Details" showEffect="fade" modal="true"
+					widgetVar="managePlaceDialog" responsive="true">
+					<p:outputPanel id="manage-place-content" class="ui-fluid">
+						<p:outputPanel rendered="#{not empty placesView.selectedPlace}">
+							<div class="p-field">
+								<p:outputLabel for="name">Name</p:outputLabel>
+								<p:inputText id="name" value="#{placesView.selectedPlace.name}"
+									required="true" />
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="visited">Visited</p:outputLabel>
+								<p:selectBooleanCheckbox id="visited" value="#{placesView.selectedPlace.visited}"/>
+							</div>
+							<div class="p-field">
+								<p:outputLabel for="description">Description</p:outputLabel>
+								<p:inputTextarea id="description"
+									value="#{placesView.selectedPlace.description}" />
+							</div>
+						</p:outputPanel>
+					</p:outputPanel>
+
+					<f:facet name="footer">
+						<p:commandButton value="Save" icon="pi pi-check"
+							actionListener="#{placesView.savePlace}"
+							update="manage-place-content"
+							process="manage-place-content @this" />
+						<p:commandButton value="Cancel" icon="pi pi-times"
+							onclick="PF('managePlaceDialog').hide()"
+							class="ui-button-secondary" />
+					</f:facet>
+				</p:dialog>
+
+				<p:confirmDialog widgetVar="deletePlaceDialog" showEffect="fade"
+					width="300" message="Delete the place?" header="Confirm"
+					severity="warn">
+					<p:commandButton value="Yes" icon="pi pi-check"
+						actionListener="#{placesView.deletePlace}" process="@this"
+						oncomplete="PF('deletePlaceDialog').hide()" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-button-secondary" icon="pi pi-times"
+						onclick="PF('deletePlaceDialog').hide()" />
+				</p:confirmDialog>
+
+				<p:confirmDialog global="true" showEffect="fade" width="300">
+					<p:commandButton value="Yes" type="button"
+						styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-confirmdialog-no ui-button-secondary"
+						icon="pi pi-times" />
+				</p:confirmDialog>
+
+			</div>
+		</h:form>
+
+	</h:body>
+
+</ui:composition>
