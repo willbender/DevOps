@@ -74,6 +74,9 @@
 					<p:column headerText="Description" >
 						<h:outputText value="#{place.description}" />
 					</p:column>
+					<p:column headerText="Description Portuguese" >
+						<h:outputText value="#{place.descriptionPt}" />
+					</p:column>
 					<p:column exportable="false">
 						<p:commandButton icon="pi pi-pencil"
 							update=":form:manage-place-content"

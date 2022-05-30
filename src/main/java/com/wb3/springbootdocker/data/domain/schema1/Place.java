@@ -27,4 +27,8 @@ public class Place {
 
 	@Column(name = "description", columnDefinition = "text")
 	private String description;
+
+	@Column(name = "description_pt", columnDefinition = "text")
+	private String descriptionPt;
+
 }
