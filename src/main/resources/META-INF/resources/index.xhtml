@@ -17,7 +17,7 @@
 
 		<h:form id="form">
 			<div class="card crud-demo">
-				<p:growl id="messages" showDetail="true"/>
+				<p:growl id="messages" showDetail="true" />
 				<p:toolbar>
 					<p:toolbarGroup>
 						<p:commandButton value="New" icon="pi pi-plus"
@@ -41,9 +41,8 @@
 
 				<p:dataTable id="dt-places" widgetVar="dtPlaces" var="place"
 					value="#{placesView.places}" reflow="true"
-					styleClass="places-table"
-					selection="#{placesView.selectedPlaces}" rowKey="#{place.id}"
-					paginator="true" rows="10" rowSelectMode="add"
+					styleClass="places-table" selection="#{placesView.selectedPlaces}"
+					rowKey="#{place.id}" paginator="true" rows="10" rowSelectMode="add"
 					paginatorPosition="bottom">
 					<f:facet name="header">
 						<div class="places-table-header">
@@ -65,14 +64,17 @@
 
 					<p:column selectionMode="multiple" exportable="false"></p:column>
 
-					<p:column headerText="Name" >
+					<p:column headerText="Name">
 						<h:outputText value="#{place.name}" />
 					</p:column>
-					<p:column headerText="Visited" >
+					<p:column headerText="Visited">
 						<h:outputText value="#{place.visited}" />
 					</p:column>
-					<p:column headerText="Description" >
+					<p:column headerText="Description">
 						<h:outputText value="#{place.description}" />
+					</p:column>
+					<p:column headerText="Descripcion traducida">
+						<h:outputText value="#{place.descriptionTranslated}" />
 					</p:column>
 					<p:column exportable="false">
 						<p:commandButton icon="pi pi-pencil"
@@ -87,6 +89,11 @@
 						<p:commandButton class="ui-button-warning rounded-button"
 							icon="pi pi-trash" process="@this"
 							oncomplete="PF('deletePlaceDialog').show()">
+							<f:setPropertyActionListener value="#{place}"
+								target="#{placesView.selectedPlace}" />
+						</p:commandButton>
+						<p:commandButton icon="pi pi-sort-alt" class="rounded-button"
+							process="@this" oncomplete="PF('translatePlaceDialog').show()">
 							<f:setPropertyActionListener value="#{place}"
 								target="#{placesView.selectedPlace}" />
 						</p:commandButton>
@@ -105,7 +112,8 @@
 							</div>
 							<div class="p-field">
 								<p:outputLabel for="visited">Visited</p:outputLabel>
-								<p:selectBooleanCheckbox id="visited" value="#{placesView.selectedPlace.visited}"/>
+								<p:selectBooleanCheckbox id="visited"
+									value="#{placesView.selectedPlace.visited}" />
 							</div>
 							<div class="p-field">
 								<p:outputLabel for="description">Description</p:outputLabel>
@@ -145,6 +153,16 @@
 						icon="pi pi-times" />
 				</p:confirmDialog>
 
+				<p:confirmDialog widgetVar="translatePlaceDialog" showEffect="fade"
+					width="300" message="Translate the place?" header="Confirm"
+					severity="warn">
+					<p:commandButton value="Yes" icon="pi pi-check"
+						actionListener="#{placesView.translateSelectedPlaceDescription}"
+						process="@this" oncomplete="PF('translatePlaceDialog').hide()" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-button-secondary" icon="pi pi-times"
+						onclick="PF('translatePlaceDialog').hide()" />
+				</p:confirmDialog>
 			</div>
 		</h:form>
 
