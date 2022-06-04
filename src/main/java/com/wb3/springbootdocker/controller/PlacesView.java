@@ -49,14 +49,14 @@ public class PlacesView implements Serializable {
 		if (this.selectedPlace.getId() == null) {
 			placesRepository.save(this.selectedPlace);
 			this.places.add(this.selectedPlace);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Place Added"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ciudad Agregada"));
 		} else {
 			Place placeToUpdate = placesRepository.findById(this.selectedPlace.getId()).orElseThrow(RuntimeException::new);
 			placeToUpdate.setName(this.selectedPlace.getName());
 			placeToUpdate.setVisited(this.selectedPlace.getVisited());
 			placeToUpdate.setDescription(this.selectedPlace.getDescription());
 			placesRepository.save(placeToUpdate);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Place Updated"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ciudad Actualizada"));
 		}
 		PrimeFaces.current().executeScript("PF('managePlaceDialog').hide()");
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-places");
@@ -65,7 +65,7 @@ public class PlacesView implements Serializable {
 	public void deletePlace() {
 		placesRepository.delete(this.selectedPlace);
 		this.places.remove(this.selectedPlace);
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Place Removed"));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ciudad Eliminada"));
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-places");
 	}
 
@@ -86,7 +86,7 @@ public class PlacesView implements Serializable {
 		this.places.removeAll(this.selectedPlaces);
 		placesRepository.deleteAll(this.selectedPlaces);
 		this.selectedPlaces = null;
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Places Removed"));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ciudad Eliminada"));
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-places");
 		PrimeFaces.current().executeScript("PF('dtPlaces').clearFilters()");
 	}
