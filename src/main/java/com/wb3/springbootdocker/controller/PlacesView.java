@@ -65,7 +65,7 @@ public class PlacesView implements Serializable {
 	public void deletePlace() {
 		placesRepository.delete(this.selectedPlace);
 		this.places.remove(this.selectedPlace);
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Place Removed"));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ciudad Eliminada"));
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-places");
 	}
 
@@ -86,7 +86,7 @@ public class PlacesView implements Serializable {
 		this.places.removeAll(this.selectedPlaces);
 		placesRepository.deleteAll(this.selectedPlaces);
 		this.selectedPlaces = null;
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Places Removed"));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ciudad Eliminada"));
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-places");
 		PrimeFaces.current().executeScript("PF('dtPlaces').clearFilters()");
 	}
