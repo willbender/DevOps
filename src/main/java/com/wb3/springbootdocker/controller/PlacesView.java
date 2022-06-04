@@ -49,14 +49,14 @@ public class PlacesView implements Serializable {
 		if (this.selectedPlace.getId() == null) {
 			placesRepository.save(this.selectedPlace);
 			this.places.add(this.selectedPlace);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Place Added"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ciudad Agregada"));
 		} else {
 			Place placeToUpdate = placesRepository.findById(this.selectedPlace.getId()).orElseThrow(RuntimeException::new);
 			placeToUpdate.setName(this.selectedPlace.getName());
 			placeToUpdate.setVisited(this.selectedPlace.getVisited());
 			placeToUpdate.setDescription(this.selectedPlace.getDescription());
 			placesRepository.save(placeToUpdate);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Place Updated"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ciudad Actualizada"));
 		}
 		PrimeFaces.current().executeScript("PF('managePlaceDialog').hide()");
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-places");
