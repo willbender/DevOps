@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.wb3.springbootdocker.data.domain.schema1.Place;
 import com.wb3.springbootdocker.repository.interfaces.PlacesRepository;
+import com.wb3.springbootdocker.repository.interfaces.TraductionService;
 
 import lombok.Data;
 
@@ -35,6 +36,9 @@ public class PlacesView implements Serializable {
 
 	@Autowired
 	private PlacesRepository placesRepository;
+
+	@Autowired
+	private TraductionService traductionService;
 
 	@PostConstruct
 	public void init() {
@@ -89,5 +93,12 @@ public class PlacesView implements Serializable {
 		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Ciudad Eliminada"));
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-places");
 		PrimeFaces.current().executeScript("PF('dtPlaces').clearFilters()");
+	}
+
+	public void translateSelectedPlaceDescription() {
+		String translatedText = traductionService.translateText(this.selectedPlace.getDescription(), "PT-BR");
+		this.selectedPlace.setDescriptionTranslated(translatedText);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Descripción de lugar traducida"));
+		PrimeFaces.current().ajax().update("form:messages", "form:dt-places");
 	}
 }

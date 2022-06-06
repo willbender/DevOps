@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import lombok.Data;
 
@@ -28,7 +29,6 @@ public class Place {
 	@Column(name = "description", columnDefinition = "text")
 	private String description;
 
-	@Column(name = "description_pt", columnDefinition = "text")
-	private String descriptionPt;
-
+	@Transient
+	private String descriptionTranslated;
 }
