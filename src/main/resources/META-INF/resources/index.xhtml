@@ -13,7 +13,9 @@
 
 	<h:body>
 
-		<h1>Places App</h1>
+
+		<h1>Aplicación Lugares</h1>
+
 
 		<h:form id="form">
 			<div class="card crud-demo">
@@ -106,10 +108,10 @@
 					<p:outputPanel id="manage-place-content" class="ui-fluid">
 						<p:outputPanel rendered="#{not empty placesView.selectedPlace}">
 							<div class="p-field">
-								<p:outputLabel for="name">Name</p:outputLabel>
+								<p:outputLabel for="name">Nombre</p:outputLabel>
 								<p:inputText id="name" value="#{placesView.selectedPlace.name}"
 									required="true" />
-							</div>
+							</div>git
 							<div class="p-field">
 								<p:outputLabel for="visited">Visited</p:outputLabel>
 								<p:selectBooleanCheckbox id="visited"
