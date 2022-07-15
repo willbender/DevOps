@@ -53,14 +53,14 @@ public class PlacesView implements Serializable {
 		if (this.selectedPlace.getId() == null) {
 			placesRepository.save(this.selectedPlace);
 			this.places.add(this.selectedPlace);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(Constants.ADD_PLACE));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("New place added"));
 		} else {
 			Place placeToUpdate = placesRepository.findById(this.selectedPlace.getId()).orElseThrow(RuntimeException::new);
 			placeToUpdate.setName(this.selectedPlace.getName());
 			placeToUpdate.setVisited(this.selectedPlace.getVisited());
 			placeToUpdate.setDescription(this.selectedPlace.getDescription());
 			placesRepository.save(placeToUpdate);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(Constants.UPDATE_PLACE));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Place updated"));
 		}
 		PrimeFaces.current().executeScript("PF('managePlaceDialog').hide()");
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-places");
@@ -69,7 +69,7 @@ public class PlacesView implements Serializable {
 	public void deletePlace() {
 		placesRepository.delete(this.selectedPlace);
 		this.places.remove(this.selectedPlace);
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(Constants.REMOVE_PLACE));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Place removed"));
 		PrimeFaces.current().ajax().update("form:messages", "form:dt-places");
 	}
 
