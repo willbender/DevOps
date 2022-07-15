@@ -28,7 +28,7 @@ public class PlacesView implements Serializable {
 	 */
 	private static final long serialVersionUID = 1429930878144233003L;
 
-	private List<Place> places;
+	private List<Plac> places;
 
 	private List<Place> selectedPlaces;
 
