@@ -1,2 +1,2 @@
 # DevOps
-Repositorio para el módulo 6 de master en DevOps
+Repositorio para el módulo 8 de master en DevOps
