@@ -1,2 +1,6 @@
 /kubeconfig.yaml
 /creds
+/target/
+/.settings/
+/.classpath
+/.project
