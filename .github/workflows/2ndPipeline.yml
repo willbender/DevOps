@@ -57,6 +57,7 @@ jobs:
         run: mvn package
         
       - name: Deploy Azure
+        if: ${{ github.event == 'push' }} 
         uses: Azure/webapps-deploy@v2
         with: 
           app-name: places-app
