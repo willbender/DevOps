@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Cancel Previous Runs
+      - name: Cancel Previous Runs # Paso para cancelar si existiera un flujo procesando.
         uses: styfle/cancel-workflow-action@0.10.0
         with:
           access_token: ${{ github.token }}
@@ -57,7 +57,7 @@ jobs:
         run: mvn package
         
       - name: Deploy Azure
-        if: ${{ github.event == 'push' }} 
+        if: ${{ github.event == 'push' }} #PASO PARA DESPLEGAR CUANDO SE HAGA EL PUSH Y NO EL PULLREQUEST.
         uses: Azure/webapps-deploy@v2
         with: 
           app-name: places-app
