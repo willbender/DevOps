@@ -24,7 +24,7 @@ public class PlacesStepsDefinition {
 		options.addArguments("--headless");
 		driver = new ChromeDriver(options);
 		driver.manage().window().maximize();
-		driver.get("http://localhost:8080/");
+		driver.get("http://places-app.azurewebsites.net/");
 	}
 
 	@Then("Application name is displayed")

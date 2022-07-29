@@ -19,10 +19,7 @@ jobs:
           
       - name: Compile with Maven
         run: mvn clean compile
-        
-      - name: Run with Maven
-        run: mvn spring-boot:run
-        
+            
       - name: Test with Maven
         run: mvn test
         
@@ -69,3 +66,10 @@ jobs:
           app-name: staging-places-app
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_STAGING_PROFILE }}
           package: target/*.jar
+          
+      - name: Sleep for 30 seconds
+        run: sleep 30s
+        shell: bash    
+          
+      - name: Test Deployment
+        run: mvn test -Dspring.profiles.active=prod
