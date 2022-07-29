@@ -51,7 +51,7 @@ jobs:
       - name: Package
         run: mvn package
         
-      - name: Deploy Prod to Azure
+      - name: Deploy Production to Azure
         if: github.ref == 'refs/heads/main'
         uses: Azure/webapps-deploy@v2
         with: 
